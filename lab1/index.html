@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Fibonacci Performance Comparison</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .canvas-container {
+        display: inline-block;
+        margin: 10px;
+        border: 1px solid #000;
+      }
+      canvas {
+        background: #fafafa;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Сравнение методов вычисления чисел Фибоначчи</h1>
+    <!-- 7 canvas-ов для каждого метода -->
+    <div class="canvas-container">
+      <canvas id="chart-fastDoubling" width="600" height="400"></canvas>
+      <p align="center">Fast Doubling</p>
+    </div>
+    <div class="canvas-container">
+      <canvas id="chart-iterative" width="600" height="400"></canvas>
+      <p align="center">Iterative</p>
+    </div>
+    <div class="canvas-container">
+      <canvas id="chart-memo" width="600" height="400"></canvas>
+      <p align="center">Memoization</p>
+    </div>
+    <div class="canvas-container">
+      <canvas id="chart-recursive" width="600" height="400"></canvas>
+      <p align="center">Recursive</p>
+    </div>
+    <div class="canvas-container">
+      <canvas id="chart-dp" width="600" height="400"></canvas>
+      <p align="center">Dynamic Programming</p>
+    </div>
+    <div class="canvas-container">
+      <canvas id="chart-matrix" width="600" height="400"></canvas>
+      <p align="center">Matrix Power</p>
+    </div>
+    <div class="canvas-container">
+      <canvas id="chart-binet" width="600" height="400"></canvas>
+      <p align="center">Binet Formula</p>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
