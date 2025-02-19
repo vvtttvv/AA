@@ -199,7 +199,7 @@ function drawGraphForMethod(canvasId, testNs, times, methodName) {
   for (let i = 0; i <= numTicks; i++) {
     const timeTick = (i / numTicks) * maxTime;
     const y = yScale(timeTick);
-    ctx.fillText(timeTick.toFixed(2), margin.left - 5, y + 5);
+    ctx.fillText(timeTick.toFixed(4), margin.left - 5, y + 5);
   }
 
   ctx.strokeStyle = 'red';
