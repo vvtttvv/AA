@@ -202,6 +202,7 @@ function drawGraphForMethod(canvasId, testNs, times, methodName) {
     ctx.fillText(timeTick.toFixed(4), margin.left - 5, y + 5);
   }
 
+
   ctx.strokeStyle = 'red';
   ctx.beginPath();
   testNs.forEach((n, i) => {
