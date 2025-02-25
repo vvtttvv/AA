@@ -160,6 +160,7 @@ function sortWithBST(array) {
     return bst.getSortedArray();
 }
 
+//-------------------------------------------------------------------
 
 function measureExecutionTime(sortFunction, array) {
     let start = performance.now();
@@ -195,7 +196,6 @@ document.addEventListener("DOMContentLoaded", () => {
     function drawGraph() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
-        // Define margins
         const marginLeft = 50;
         const marginBottom = 50;
         const marginTop = 30;
@@ -203,32 +203,26 @@ document.addEventListener("DOMContentLoaded", () => {
         const graphWidth = canvas.width - marginLeft - marginRight;
         const graphHeight = canvas.height - marginBottom - marginTop;
     
-        // Find max time for scaling
         let maxTime = Math.max(...Object.values(results).flat());
         let scaleX = graphWidth / (sizes.length - 1);
         let scaleY = graphHeight / maxTime;
     
-        // Draw axes
         ctx.strokeStyle = "black";
         ctx.lineWidth = 2;
         
-        // Y-axis (Time in ms)
         ctx.beginPath();
         ctx.moveTo(marginLeft, marginTop);
         ctx.lineTo(marginLeft, canvas.height - marginBottom);
         ctx.stroke();
     
-        // X-axis (Array sizes)
         ctx.beginPath();
         ctx.moveTo(marginLeft, canvas.height - marginBottom);
         ctx.lineTo(canvas.width - marginRight, canvas.height - marginBottom);
         ctx.stroke();
     
-        // Draw grid and labels
         ctx.fillStyle = "black";
         ctx.font = "14px Arial";
     
-        // Y-axis labels
         let stepY = Math.ceil(maxTime / 5);
         for (let i = 0; i <= 5; i++) {
             let yValue = stepY * i;
@@ -242,14 +236,12 @@ document.addEventListener("DOMContentLoaded", () => {
             ctx.stroke();
         }
     
-        // X-axis labels (Array sizes)
         ctx.textAlign = "center";
         sizes.forEach((size, i) => {
             let x = marginLeft + i * scaleX;
             ctx.fillText(size, x, canvas.height - marginBottom + 20);
         });
     
-        // Draw lines for sorting algorithms
         const colors = { quickSort: "red", mergeSort: "blue", heapSort: "green", sortWithBST: "purple" };
         
         Object.entries(results).forEach(([name, times]) => {
@@ -269,7 +261,6 @@ document.addEventListener("DOMContentLoaded", () => {
             ctx.stroke();
         });
     
-        // Draw title
         ctx.font = "18px Arial";
         ctx.fillStyle = "black";
         ctx.textAlign = "center";
@@ -278,3 +269,157 @@ document.addEventListener("DOMContentLoaded", () => {
     
     drawGraph();
 });
+
+//-------------------------------------------------------------------
+ 
+const visualizationCanvas = document.getElementById('visualizationCanvas');
+visualizationCanvas.width = 800;
+visualizationCanvas.height = 200;
+document.body.insertBefore(visualizationCanvas, document.getElementById('visualization_section'));
+const vizCtx = visualizationCanvas.getContext('2d');
+
+let isSorting = false;
+let currentArray = [];
+let animationDelay = 50;  
+function drawVisualization(array, highlights = {}) {
+    vizCtx.clearRect(0, 0, visualizationCanvas.width, visualizationCanvas.height);
+    const barWidth = visualizationCanvas.width / array.length;
+    const maxHeight = Math.max(...array);
+    const scale = visualizationCanvas.height / maxHeight;
+
+    array.forEach((value, i) => {
+        vizCtx.fillStyle = highlights[i] || '#2196f3';
+        vizCtx.fillRect(
+            i * barWidth,
+            visualizationCanvas.height - value * scale,
+            barWidth - 1,
+            value * scale
+        );
+    });
+}
+ 
+async function quickSortVisualization(arr, low = 0, high = arr.length - 1) {
+    if (low < high) {
+        const pi = await partitionVisualization(arr, low, high);
+        await quickSortVisualization(arr, low, pi - 1);
+        await quickSortVisualization(arr, pi + 1, high);
+    }
+}
+
+async function partitionVisualization(arr, low, high) {
+    const pivot = arr[high];
+    let i = low - 1;
+    
+    for (let j = low; j < high; j++) {
+        if (arr[j] < pivot) {
+            i++;
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+            drawVisualization(arr, { [i]: '#ff5722', [j]: '#4caf50' });
+            await new Promise(resolve => setTimeout(resolve, animationDelay));
+        }
+    }
+    
+    [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
+    drawVisualization(arr, { [i + 1]: '#ff5722', [high]: '#4caf50' });
+    await new Promise(resolve => setTimeout(resolve, animationDelay));
+    return i + 1;
+}
+ 
+async function mergeSortVisualization(array) {
+    if (array.length <= 1) return array;
+
+    const middle = Math.floor(array.length / 2);
+    const left = await mergeSortVisualization(array.slice(0, middle));
+    const right = await mergeSortVisualization(array.slice(middle));
+    
+    return mergeVisualization(left, right);
+}
+
+async function mergeVisualization(left, right) {
+    let result = [];
+    let li = 0, ri = 0;
+    
+    while (li < left.length && ri < right.length) {
+        if (left[li] < right[ri]) {
+            result.push(left[li++]);
+        } else {
+            result.push(right[ri++]);
+        }
+        currentArray = [...result, ...left.slice(li), ...right.slice(ri)];
+        drawVisualization(currentArray, { [result.length - 1]: '#ff5722' });
+        await new Promise(resolve => setTimeout(resolve, animationDelay));
+    }
+    
+    return result.concat(left.slice(li)).concat(right.slice(ri));
+}
+ 
+async function heapSortVisualization(array) {
+    let arr = [...array];
+    const n = arr.length;
+
+    for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+        await heapifyVisualization(arr, n, i);
+    }
+
+    for (let i = n - 1; i > 0; i--) {
+        [arr[0], arr[i]] = [arr[i], arr[0]];
+        drawVisualization(arr, { 0: '#ff5722', [i]: '#4caf50' });
+        await new Promise(resolve => setTimeout(resolve, animationDelay));
+        await heapifyVisualization(arr, i, 0);
+    }
+    return arr;
+}
+
+async function heapifyVisualization(arr, n, i) {
+    let largest = i;
+    const left = 2 * i + 1;
+    const right = 2 * i + 2;
+
+    if (left < n && arr[left] > arr[largest]) largest = left;
+    if (right < n && arr[right] > arr[largest]) largest = right;
+
+    if (largest !== i) {
+        [arr[i], arr[largest]] = [arr[largest], arr[i]];
+        drawVisualization(arr, { [i]: '#ff5722', [largest]: '#4caf50' });
+        await new Promise(resolve => setTimeout(resolve, animationDelay));
+        await heapifyVisualization(arr, n, largest);
+    }
+}
+ 
+function createVisualizationControls() {
+    const controls = document.getElementById('viz_controls');
+    controls.style.margin = '20px';
+    
+    const algorithms = {
+        'Quick Sort': quickSortVisualization,
+        'Merge Sort': mergeSortVisualization,
+        'Heap Sort': heapSortVisualization,
+        'BST Sort': async () => {
+            const sorted = sortWithBST(currentArray);
+            for (let i = 0; i < sorted.length; i++) {
+                currentArray[i] = sorted[i];
+                drawVisualization(currentArray, { [i]: '#ff5722' });
+                await new Promise(resolve => setTimeout(resolve, animationDelay));
+            }
+        }
+    };
+
+    Object.entries(algorithms).forEach(([name, func]) => {
+        const btn = document.createElement('button');
+        btn.textContent = name;
+        btn.style.margin = '0 10px';
+        btn.addEventListener('click', async () => {
+            if (isSorting) return;
+            isSorting = true;
+            currentArray = generateRandomArray(50);
+            drawVisualization(currentArray);
+            await func(currentArray);
+            isSorting = false;
+        });
+        controls.appendChild(btn);
+    });
+
+    document.body.insertBefore(controls, visualizationCanvas);
+}
+ 
+createVisualizationControls();

@@ -1,0 +1,59 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 20px;
+}
+
+canvas {
+    border: 1px solid black;
+    display: block;
+    margin: 20px auto;
+}
+
+.legend {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.legend div {
+    display: flex;
+    align-items: center;
+}
+
+.legend span {
+    width: 20px;
+    height: 10px;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.visualization-section {
+  margin: 40px 0;
+  border-top: 2px solid #eee;
+  padding-top: 30px;
+}
+
+.viz-controls {
+  margin: 20px 0;
+}
+
+.viz-controls button {
+  padding: 8px 15px;
+  margin: 0 5px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.viz-controls button:hover {
+  background-color: #45a049;
+}
+
+#visualizationCanvas {
+  background-color: #f5f5f5;
+  margin: 20px auto;
+}

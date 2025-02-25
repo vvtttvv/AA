@@ -3,33 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Sorting Algorithm Performance</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 20px;
-        }
-        canvas {
-            border: 1px solid black;
-            display: block;
-            margin: 20px auto;
-        }
-        .legend {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-        .legend div {
-            display: flex;
-            align-items: center;
-        }
-        .legend span {
-            width: 20px;
-            height: 10px;
-            display: inline-block;
-            margin-right: 5px;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>Sorting Algorithm Performance</h1>
@@ -40,7 +14,15 @@
         <div><span style="background-color: green;"></span> HeapSort</div>
         <div><span style="background-color: purple;"></span> BST Sort</div>
     </div>
-    
+     
+
+    <h2>Algorithm Visualization</h2>
+    <div class="visualization-section" id="visualization_section">
+      <div class="viz-controls" id="viz_controls"> 
+      </div>
+      <canvas id="visualizationCanvas" width="800" height="200"></canvas>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
