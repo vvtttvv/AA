@@ -1,4 +1,4 @@
-function quickSort(arr) {
+function quickSort(arr) {     //If we every time choose maimal or minimal element then it will have n^2 complexity
     if (arr.length < 2) return arr;
     let min = 1;
     let max = arr.length - 1;
@@ -7,7 +7,7 @@ function quickSort(arr) {
     const left = [];
     const right = [];
     arr.splice(arr.indexOf(pivot), 1);
-    arr = [pivot].concat(arr);
+    arr = [pivot].concat(arr);    //Concat will unite the arrays
     for (let i = 1; i < arr.length; i++) {
       if (pivot > arr[i]) {
         left.push(arr[i]);
@@ -274,7 +274,7 @@ document.addEventListener("DOMContentLoaded", () => {
  
 const visualizationCanvas = document.getElementById('visualizationCanvas');
 visualizationCanvas.width = 800;
-visualizationCanvas.height = 200;
+visualizationCanvas.height = 400;
 document.body.insertBefore(visualizationCanvas, document.getElementById('visualization_section'));
 const vizCtx = visualizationCanvas.getContext('2d');
 
@@ -285,18 +285,31 @@ function drawVisualization(array, highlights = {}) {
     vizCtx.clearRect(0, 0, visualizationCanvas.width, visualizationCanvas.height);
     const barWidth = visualizationCanvas.width / array.length;
     const maxHeight = Math.max(...array);
-    const scale = visualizationCanvas.height / maxHeight;
+    const scale = (visualizationCanvas.height * 0.7) / maxHeight;  // Уменьшение масштаба для большего отступа
+    const textOffset = 35; // Увеличьте отступ для большего пространства под текст
+
+    vizCtx.font = "12px Arial";
+    vizCtx.textAlign = "right"; 
+    vizCtx.fillStyle = "#000000"; 
 
     array.forEach((value, i) => {
         vizCtx.fillStyle = highlights[i] || '#2196f3';
-        vizCtx.fillRect(
-            i * barWidth,
-            visualizationCanvas.height - value * scale,
-            barWidth - 1,
-            value * scale
-        );
+        const x = i * barWidth;
+        const barHeight = value * scale;
+        const y = visualizationCanvas.height - barHeight - textOffset;
+
+        vizCtx.fillRect(x, y, barWidth - 1, barHeight);
+
+        vizCtx.save();
+        vizCtx.translate(x + barWidth / 2, visualizationCanvas.height - 25);  // Увеличиваем отступ для текста
+        vizCtx.rotate(-Math.PI / 2); 
+        vizCtx.fillText(value, 0, 0);
+        vizCtx.restore();
     });
 }
+
+
+
  
 async function quickSortVisualization(arr, low = 0, high = arr.length - 1) {
     if (low < high) {
