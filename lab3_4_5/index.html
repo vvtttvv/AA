@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Graph Algorithm Visualizer & Comparison</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="controls">
+    <button onclick="runDFS()">DFS</button>
+    <button onclick="runBFS()">BFS</button>
+    <button onclick="runPrim()">Prim</button>
+    <button onclick="runKruskal()">Kruskal</button>
+    <button onclick="runDijkstra()">Dijkstra</button>
+    <button onclick="runFloydWarshall()">Floyd–Warshall</button>
+    <button onclick="measurePerformance()">Measure Performance</button>
+    <button onclick="drawComparison()">Show Comparison</button>
+  </div>
+  <div id="canvases">
+    <canvas id="graphCanvas" width="800" height="600"></canvas>
+    <canvas id="perfCanvas" width="800" height="300"></canvas>
+    <canvas id="theoryCanvas" width="800" height="300"></canvas>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
