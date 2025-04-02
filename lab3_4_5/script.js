@@ -8,7 +8,7 @@ const perfCtx = perfCanvas.getContext('2d');
 const theoryCanvas = document.getElementById('theoryCanvas');
 const theoryCtx = theoryCanvas.getContext('2d');
 
-/*
+
 // Example nodes and edges for an undirected weighted graph with 20 nodes
 const nodes = [
   { id: 0, x: 50, y: 50 }, { id: 1, x: 150, y: 50 }, { id: 2, x: 250, y: 50 },
@@ -41,50 +41,50 @@ edges.forEach(edge => {
   graph[edge.from].push(edge.to);
   graph[edge.to].push(edge.from); // Undirected graph
 });
-*/
 
-function generateRandomGraph(n) {
-  const nodes = [];
-  const edges = [];
-  const graph = {};
 
-  // Generate random nodes with x, y positions
-  for (let i = 0; i < n; i++) {
-    nodes.push({ id: i, x: Math.floor(Math.random() * 500), y: Math.floor(Math.random() * 500) });
-    graph[i] = []; // Initialize adjacency list
-  }
+// function generateRandomGraph(n) {
+//   const nodes = [];
+//   const edges = [];
+//   const graph = {};
 
-  // Generate random edges with weights
-  const maxEdges = (n * (n - 1)) / 2; // Maximum number of edges in an undirected graph
-  const totalEdges = Math.floor(Math.random() * maxEdges) + 1;
+//   // Generate random nodes with x, y positions
+//   for (let i = 0; i < n; i++) {
+//     nodes.push({ id: i, x: Math.floor(Math.random() * 500), y: Math.floor(Math.random() * 500) });
+//     graph[i] = []; // Initialize adjacency list
+//   }
 
-  const addedEdges = new Set();
+//   // Generate random edges with weights
+//   const maxEdges = (n * (n - 1)) / 2; // Maximum number of edges in an undirected graph
+//   const totalEdges = Math.floor(Math.random() * maxEdges) + 1;
 
-  for (let i = 0; i < totalEdges; i++) {
-    let from = Math.floor(Math.random() * n);
-    let to = Math.floor(Math.random() * n);
+//   const addedEdges = new Set();
 
-    // Ensure the edge is unique and not self-loop
-    while (from === to || addedEdges.has(`${from}-${to}`) || addedEdges.has(`${to}-${from}`)) {
-      from = Math.floor(Math.random() * n);
-      to = Math.floor(Math.random() * n);
-    }
+//   for (let i = 0; i < totalEdges; i++) {
+//     let from = Math.floor(Math.random() * n);
+//     let to = Math.floor(Math.random() * n);
 
-    // Generate a random weight between 1 and 10
-    const weight = Math.floor(Math.random() * 10) + 1;
+//     // Ensure the edge is unique and not self-loop
+//     while (from === to || addedEdges.has(`${from}-${to}`) || addedEdges.has(`${to}-${from}`)) {
+//       from = Math.floor(Math.random() * n);
+//       to = Math.floor(Math.random() * n);
+//     }
 
-    edges.push({ from, to, weight });
-    graph[from].push(to);
-    graph[to].push(from); // Undirected graph
+//     // Generate a random weight between 1 and 10
+//     const weight = Math.floor(Math.random() * 10) + 1;
 
-    // Mark this edge as added
-    addedEdges.add(`${from}-${to}`);
-  }
+//     edges.push({ from, to, weight });
+//     graph[from].push(to);
+//     graph[to].push(from); // Undirected graph
 
-  return { nodes, edges, graph };
-}
+//     // Mark this edge as added
+//     addedEdges.add(`${from}-${to}`);
+//   }
 
-const { nodes, edges, graph } = generateRandomGraph(10);
+//   return { nodes, edges, graph };
+// }
+
+// const { nodes, edges, graph } = generateRandomGraph(10);
  
 
 
